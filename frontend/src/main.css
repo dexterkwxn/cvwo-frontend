@@ -1,0 +1,168 @@
+/* This CSS file follows BEM Convention */
+
+body, html {
+    font-family: Calibri, sans-serif, monospace;
+    font-size: 16px;
+  }
+  
+.main-layout {
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
+}
+
+.layout-header {
+    padding: 8px 100px;
+    background-color: #FFFFFF;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.layout-header > div {
+/* width: 100%; */
+}
+
+.layout-header__title {
+padding: 0px 5px 0px 0px;
+font-weight: bold;
+text-align: center; 
+margin: 0px; 
+color: #0f2f69;
+}
+
+
+.layout-background {
+    background-image: url("./background_image.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 90vh;
+}
+
+.layout-content {
+    padding: 15px;
+    flex: 1;
+}
+
+/* Generic layout CSS */
+.container {
+display: flex;
+align-content: center;
+align-items: center;
+justify-content: space-between;
+flex-wrap: wrap;
+}
+
+.container--align-items-top {
+align-items: flex-start;
+
+}
+
+.container__child {
+    display: flex;
+}
+
+.container__child--flex-vert {
+    flex-direction: column;
+}
+
+.data-table {
+max-width: 45vw;
+min-width: 200px;
+width: 75vw;
+box-shadow: 0px 0px 10px 1px #1f3864;
+margin: 20px 10px;
+background: white; /* This is to counter the transparent background in the sections with the picture background. See layout-background & layout-content for details */
+}
+
+.data-table .ant-tabs-tab {
+padding: 12px;
+}
+
+
+.data-table--header-no-padding .ant-card-head, .data-table--header-no-padding .ant-card-head-title {
+padding: 0px;
+}
+
+.data-table__table--white-header .ant-table-thead > tr > th {
+background: #FFFFFF;
+}
+
+.data-table--header-shadow .ant-tabs-nav {
+box-shadow: 0px 0px 10px 1px #1f3864;
+}
+
+.data-table--header-16px-bold-selected .ant-tabs-tab-active > div  {
+font-weight: bold !important;
+}
+
+.data-table--header-16px-bold-selected .ant-tabs-nav-list > div > div {
+font-size: 16px;
+}
+
+.add-task {
+    display: flex;
+    align-items: center;
+    max-width: 45vw;
+    min-width: 200px;
+    width: 75vw;
+    box-shadow: 0px 0px 10px 1px #1f3864;
+    margin: 0px 10px 20px 10px;
+    height: -webkit-calc(10vh - 20px);
+    height:    -moz-calc(10vh - 20px);
+    height:         calc(10vh - 20px);
+    background: white; /* This is to counter the transparent background in the sections with the picture background. See layout-background & layout-content for details */
+}
+
+.add-task__input {
+    border: 1px solid black;
+    margin: 2% 1% 2% 2%;
+}
+
+.add-task__button {
+    border: 1px solid black;
+    margin: 2% 2% 2% 1%;
+}
+
+.add-task-modal {
+
+}
+
+.timeline {
+    margin: 5% 0%;
+}
+
+
+/* Buttons */
+.custom-text-button {
+color: #184CA7;
+font-weight: bold;
+border-radius: 5px;
+}
+
+.custom-text-button__text {
+width: inherit;
+color: inherit;
+font-weight: inherit;
+text-align: left;
+} 
+
+.custom-text-button--no-padding {
+padding: 0px;
+}
+
+
+
+pre {
+    white-space: -moz-pre-wrap; /* Mozilla, supported since 1999 */
+    white-space: -pre-wrap; /* Opera */
+    white-space: -o-pre-wrap; /* Opera */
+    white-space: pre-wrap; /* CSS3 - Text module (Candidate Recommendation) http://www.w3.org/TR/css3-text/#white-space */
+    word-wrap: break-word; /* IE 5.5+ */
+}
+
+
+
