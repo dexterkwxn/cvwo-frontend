@@ -305,7 +305,9 @@ function App({
                       </Form.Item>
                     </Col>
                   </Row>
-                  <Button type='primary'  htmlType='submit'>Add Task</Button>
+                  <Row justify='center'>
+                    <Button className='custom-blue-button' type='primary' htmlType='submit'>Add Task</Button>
+                  </Row>
                 </Form>
               </Spin>
             </Modal>
