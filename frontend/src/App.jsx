@@ -41,10 +41,6 @@ function App({
   }, []);
 
   useEffect(() => {
-    console.log(tasks);
-  }, [tasks]);
-
-  useEffect(() => {
     if (!!tasksData && tasksData.length > 0) {
       setTasks(tasksData.map(e => {
         return {
@@ -113,7 +109,6 @@ function App({
 
   const onClickAddTask = () => {
     if (addEntry) {
-      console.log("onClickAddTask() - ", addEntry);
       let request = {
         task: addEntry,
         done: false,
