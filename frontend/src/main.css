@@ -69,19 +69,22 @@ align-items: flex-start;
     flex-direction: column;
 }
 
+.task-item {
+    margin: 5% 0%;
+}
+
 .data-table {
-max-width: 45vw;
-min-width: 200px;
-width: 75vw;
-box-shadow: 0px 0px 10px 1px #1f3864;
-margin: 20px 10px;
-background: white; /* This is to counter the transparent background in the sections with the picture background. See layout-background & layout-content for details */
+    max-width: 45vw;
+    min-width: 200px;
+    width: 75vw;
+    box-shadow: 0px 0px 10px 1px #1f3864;
+    margin: 20px 10px;
+    background: white; /* This is to counter the transparent background in the sections with the picture background. See layout-background & layout-content for details */
 }
 
 .data-table .ant-tabs-tab {
-padding: 12px;
+    padding: 12px;
 }
-
 
 .data-table--header-no-padding .ant-card-head, .data-table--header-no-padding .ant-card-head-title {
 padding: 0px;
@@ -123,35 +126,56 @@ font-size: 16px;
 }
 
 .add-task__button {
-    border: 1px solid black;
     margin: 2% 2% 2% 1%;
-}
-
-.add-task-modal {
-
+    border: none;
+    box-shadow: none;
+    font-weight: bold;
+    color: #184CA7;
 }
 
 .timeline {
     margin: 5% 0%;
 }
 
+.timeline__item {
+    width: 25vw;
+}
 
 /* Buttons */
+.custom-blue-button {
+    background-color: #184CA7;
+    border-color: #184CA7;
+}
+
 .custom-text-button {
-color: #184CA7;
-font-weight: bold;
-border-radius: 5px;
+    color: #184CA7;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: default;
 }
 
 .custom-text-button__text {
-width: inherit;
-color: inherit;
-font-weight: inherit;
-text-align: left;
+    width: inherit;
+    color: inherit;
+    font-weight: inherit;
+    text-align: left;
 } 
 
 .custom-text-button--no-padding {
-padding: 0px;
+    padding: 0px;
+}
+
+.custom-text-button:hover {
+    color: #184CA7;
+    font-weight: bold;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.015);
+    border: 1px solid transparent;
+}
+
+.custom-text-button:focus {
+    color: #184CA7;
+    border-color: transparent;
+    background: #fff;
 }
 
 

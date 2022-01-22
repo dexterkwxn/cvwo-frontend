@@ -1,10 +1,10 @@
 //The reducer is a pure function that takes the previous state and an action, and returns the next state.
 
 import { combineReducers } from 'redux';
-import BlockReducer from './BlockReducer';
+import TaskReducer from './TaskReducer';
 
 const allReducers = combineReducers({
-  block: BlockReducer,
+  task: TaskReducer,
 });
 
 const rootReducer = (state, action) => {

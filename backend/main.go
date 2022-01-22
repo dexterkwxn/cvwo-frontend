@@ -22,7 +22,6 @@ type Item struct {
 	Info   string `json:"info"`
 }
 
-var Items []Item
 var db *sql.DB
 
 func initDB() {
@@ -53,6 +52,8 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 
 // GET /fetch - fetches all entries from "items" table
 func fetchAll(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	fmt.Println("Endpoint: fetch")
 	var result []Item
 
@@ -64,7 +65,7 @@ func fetchAll(w http.ResponseWriter, r *http.Request) {
 	// Loop through rows, using Scan to assign column data to struct fields.
 	for rows.Next() {
 		var item Item
-		if err := rows.Scan(&item.Id, &item.Task, &item.Done, &item.Date, &item.Colour, &item.Info); err != nil {
+		if err := rows.Scan(&item.Id, &item.Task, &item.Done, &item.Colour, &item.Info, &item.Date); err != nil {
 			fmt.Fprintf(w, "fetchAll(): ", err)
 		}
 		result = append(result, item)
@@ -77,28 +78,66 @@ func fetchAll(w http.ResponseWriter, r *http.Request) {
 
 // POST /addTask - adds entry into "items" table
 func addTask(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "text/html; charset=ascii")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type,access-control-allow-origin, access-control-allow-headers")
+
+	fmt.Println("Endpoint: add")
 	reqBody, _ := ioutil.ReadAll(r.Body)
 	var newItem Item
 	json.Unmarshal(reqBody, &newItem)
-	Items = append(Items, newItem)
 
-	_, err := db.Exec(
-		"INSERT INTO items (task, done, date, colour, info) VALUES (?, ?, ?, ?, ?)",
-		newItem.Task,
-		newItem.Done,
-		newItem.Date,
-		newItem.Colour,
-		newItem.Info,
-	)
-	if err != nil {
-		fmt.Fprintf(w, "addTask(): ", err)
-		return
+	if r.Method == http.MethodPost {
+		_, err := db.Exec(
+			"INSERT INTO items (task, done, date, colour, info) VALUES (?, ?, ?, ?, ?)",
+			newItem.Task,
+			newItem.Done,
+			newItem.Date,
+			newItem.Colour,
+			newItem.Info,
+		)
+		if err != nil {
+			fmt.Fprintf(w, "addTask(): ", err)
+			return
+		}
 	}
 	fmt.Fprintf(w, "%+v", string(reqBody))
 }
 
-// DELETE /removeTask/{id} - delete row with specified id
+// POST /addTask - updates entry into "items" table
+func updateTask(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "text/html; charset=ascii")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type,access-control-allow-origin, access-control-allow-headers")
+	vars := mux.Vars(r)
+	id := vars["id"]
+	reqBody, _ := ioutil.ReadAll(r.Body)
+	var newItem Item
+	json.Unmarshal(reqBody, &newItem)
+	if r.Method == http.MethodPost {
+		_, err := db.Exec(
+			"UPDATE items SET task = ?, done = ?, date = ?, colour = ?, info = ? WHERE id = ?",
+			newItem.Task,
+			newItem.Done,
+			newItem.Date,
+			newItem.Colour,
+			newItem.Info,
+			id,
+		)
+		if err != nil {
+			fmt.Fprintf(w, "updateTask(): ", err)
+			return
+		}
+	}
+
+	fmt.Fprintf(w, "%+v", string(reqBody))
+}
+
+// POST /removeTask/{id} - delete row with specified id
 func removeTask(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "text/html; charset=ascii")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type,access-control-allow-origin, access-control-allow-headers")
 	vars := mux.Vars(r)
 	id := vars["id"]
 
@@ -117,17 +156,14 @@ func handleRequests() {
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/", homePage)
 	router.HandleFunc("/fetch", fetchAll)
-	router.HandleFunc("/addTask", addTask).Methods("POST")
-	router.HandleFunc("/removeTask/{id}", removeTask).Methods("DELETE")
+	router.HandleFunc("/addTask", addTask).Methods("POST", "OPTIONS")
+	router.HandleFunc("/updateTask/{id}", updateTask).Methods("POST", "OPTIONS")
+	router.HandleFunc("/removeTask/{id}", removeTask).Methods("POST", "OPTIONS")
 	log.Fatal(http.ListenAndServe(":10000", router))
 }
 
 func main() {
 	initDB()
 	fmt.Println("Rest API v2.0 - Mux Routers")
-	Items = []Item{
-		Item{Id: "1", Task: "Test1", Done: true},
-		Item{Id: "2", Task: "Test2", Done: false},
-	}
 	handleRequests()
 }
